@@ -1,4 +1,4 @@
-# SpeechTranscription_Hindi
+# Speech_Transcription_Hindi
 
 Batch-transcribe Hindi audio clips (`.mpeg`, `.mp3`, `.wav`) to text using the [Sarvam AI](https://docs.sarvam.ai) Speech-to-Text Batch API (Saaras).
 
@@ -19,10 +19,10 @@ Built to turn recorded scene dialogue into text for a children's Janmashtami pla
 ## Project structure
 
 ```
-SpeechTranscription_Hindi/
+Speech_Transcription_Hindi/
 ├── clips/              # put your audio files here
 ├── transcripts/        # output JSON files are written here
-├── .env                # SARVAM_API_KEY=your_key_here (not committed)
+├── .env                # API_KEY=your_key_here (not committed)
 ├── .gitignore
 ├── requirements.txt
 ├── transcribe.py
@@ -35,8 +35,8 @@ SpeechTranscription_Hindi/
 
 **Windows (PowerShell)**
 ```powershell
-git clone https://github.com/<your-username>/SpeechTranscription_Hindi.git
-cd SpeechTranscription_Hindi
+git clone https://github.com/cygnusxrc/Speech_Transcription_Hindi.git
+cd Speech_Transcription_Hindi
 python -m venv venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 venv\Scripts\Activate.ps1
@@ -44,8 +44,8 @@ venv\Scripts\Activate.ps1
 
 **macOS / Linux**
 ```bash
-git clone https://github.com/<your-username>/SpeechTranscription_Hindi.git
-cd SpeechTranscription_Hindi
+git clone https://github.com/cygnusxrc/Speech_Transcription_Hindi.git
+cd Speech_Transcription_Hindi
 python3 -m venv venv
 source venv/bin/activate
 ```
@@ -69,7 +69,7 @@ python-dotenv
 Create a `.env` file in the project root:
 
 ```
-SARVAM_API_KEY=your_actual_key_here
+API_KEY=your_actual_key_here
 ```
 
 No quotes, no spaces around `=`. Make sure the file is named `.env` and not `.env.txt` (Windows Explorer hides extensions by default).
@@ -94,7 +94,7 @@ from sarvamai import SarvamAI
 
 load_dotenv()
 
-client = SarvamAI(api_subscription_key=os.environ["SARVAM_API_KEY"])
+client = SarvamAI(api_subscription_key=os.environ["API_KEY"])
 
 audio_dir = "clips"
 output_dir = "transcripts"
@@ -103,7 +103,7 @@ os.makedirs(output_dir, exist_ok=True)
 files = [
     os.path.join(audio_dir, f)
     for f in os.listdir(audio_dir)
-    if f.lower().endswith((".wav", ".mp3", ".mpeg"))
+    if f.endswith((".wav", ".mp3", ".mpeg"))
 ]
 
 if not files:
@@ -172,7 +172,7 @@ for path in glob.glob("transcripts/*.json"):
 | `python3` not found on Windows | Use `python`; disable the Microsoft Store aliases under Settings > Apps > Advanced app settings > App execution aliases |
 | `ModuleNotFoundError: dotenv` | Run `python -m pip install -r requirements.txt` with the venv active |
 | Packages install to global Python | Use `python -m pip`, not `pip`; verify with `python -c "import sys; print(sys.prefix)"` |
-| `KeyError: 'SARVAM_API_KEY'` | Check `.env` exists in the project root and is not named `.env.txt` |
+| `KeyError: 'API_KEY'` | Check `.env` exists in the project root and is not named `.env.txt` |
 | Activation script blocked | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned` |
 
 ## Recommended `.gitignore`
